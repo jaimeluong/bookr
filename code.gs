@@ -9,3 +9,11 @@ const doGet = (e) => {
 const include = (filename) => {
   return HtmlService.createHtmlOutputFromFile(filename).getContent();
 }
+
+// Run in dev console for manual authorization
+const forceAuthorization = () => {
+  const sheets = SpreadsheetApp.openById('1o8zttMRHnp2Yf493vDYB2SJ_1xXwK1EkB8jgnAWAdVo');
+  const mail = GmailApp.getInboxUnreadCount();
+  const drive = DriveApp.getStorageUsed();
+  const calendar = CalendarApp.getAllCalendars();
+}
