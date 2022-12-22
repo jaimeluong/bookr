@@ -6,8 +6,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <base target="_top">
+    <script>
+      // Prevent forms from submitting prematurely
+      function preventFormSubmit() {
+        let forms = document.querySelectorAll('form');
+        forms.forEach(form => form.addEventListener('submit', function(event) {
+          event.preventDefault();
+        }));
+      }
+      // Prevent page from redirecting to an inaccurate URL in the event of an exception
+      window.addEventListener('load', preventFormSubmit);
+
+      // Handle form submit
+      function handleBookingFormSubmit(formObject) {
+        google.script.run.withSuccessHandler(sendConfirmation).processBookingForm(formObject);
+      }
+
+      // Send confirmation of booking after submission
+      function sendConfirmation() {
+        let confirmation = document.getElementById('confirmation');
+        confirmation.textContent = 'Your booking application has been received!';
+        // Add code to email client booking request details using email template
+      }
+    </script>
 </head>
 <body>
     <h1>Book a stay</h1>
+
+    <form id="booking" onsubmit="handleBookingFormSubmit(this)">
+      <label for="firstName">First name</label><br>
+      <input name="firstName" type="text"><br><br>
+
+      <label for="lastName">Last name</label><br>
+      <input name="lastName" type="text"><br><br>
+
+      <label for="email">Email address</label><br>
+      <input name="email" type="email"><br><br>
+
+      <label for="phone">Phone number</label><br>
+      <input type="tel" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"><br><br>
+      
+      <input type="submit" value="Submit"/>
+    </form>
+
+    <br>
+
+    <div id="confirmation"></div>
 </body>
 </html>
