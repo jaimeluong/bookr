@@ -1,14 +1,17 @@
 <script>
-    let container = document.querySelector('.container');
-  
-    google.script.run.withSuccessHandler(showData).getProperties();
-    function showData(dataArray) {
-      for(var i=0; i<dataArray.length; i++) {
-        let card = document.createElement('div');
-        card.setAttribute('style', `height: 10px; width: 10px; background-color: gray;`);
-        card.classList.add('card');
-        card.textContent = dataArray[i];
-        container.appendChild(card);
-      }
+  // Get container div to hold cards (one card = one property)
+  let container = document.querySelector('.container');
+
+  // Pull data from back-end, getProperties() returns the array of data
+  google.script.run.withSuccessHandler(showData).getProperties();
+
+  // Display data on front-end
+  function showData(dataArray) {
+    for(var i=0; i<dataArray.length; i++) {
+      let card = document.createElement('div');
+      card.classList.add('card');
+      card.textContent = dataArray[i];
+      container.appendChild(card);
     }
-  </script>
+  }
+</script>
