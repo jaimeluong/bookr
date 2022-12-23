@@ -7,6 +7,8 @@ const doGet = (e) => { // doGet functions as a router to direct client to correc
       return HtmlService.createTemplateFromFile('booking_application').evaluate().setTitle('Book a stay');
     case 'properties':
       return HtmlService.createTemplateFromFile('properties').evaluate().setTitle('Available properties');
+    case 'bookings':
+      return HtmlService.createTemplateFromFile('admin_bookings').evaluate().setTitle('Submitted bookings');
     default:
       return HtmlService.createTemplateFromFile('index').evaluate().setTitle('Bookr');
   }
