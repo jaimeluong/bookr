@@ -25,7 +25,7 @@
       // Send confirmation of booking after submission
       function sendConfirmation() {
         let confirmation = document.getElementById('confirmation');
-        confirmation.textContent = 'Your booking application has been received!';
+        confirmation.textContent = 'Your booking application has been received! Application details have been emailed to you, but please wait until you receive official confirmation of your stay.';
         // Add code to email client booking request details using email template
       }
     </script>
@@ -45,6 +45,32 @@
 
       <label for="phone">Phone number</label><br>
       <input type="tel" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"><br><br>
+
+      <label for="guests">Number of guests</label><br>
+      <select name="guests">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+      </select><br><br>
+
+      <label for="checkinDate">Check-in date</label><br>
+      <input type="date" name="checkinDate"><br><br>
+
+      <label for="checkoutDate">Check-out date</label><br>
+      <input type="date" name="checkoutDate"><br><br>
+
+      <label for="accessibility">Do any guests require accessibility-related accommodations?</label>
+      <input type="checkbox" name="accessibility" value="TRUE"><br><br>
+
+      <label for="promoEmails">Would you like to receive promotional emails from Bookr?</label>
+      <input type="checkbox" name="promoEmails" value="TRUE"><br><br>
       
       <input type="submit" value="Submit"/>
     </form>
