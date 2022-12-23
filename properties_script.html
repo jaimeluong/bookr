@@ -5,12 +5,52 @@
   // Pull data from back-end, getProperties() returns the array of data
   google.script.run.withSuccessHandler(showData).getProperties();
 
-  // Display data on front-end
+  // Display data on front-end by creating cards
   function showData(dataArray) {
     for(var i=0; i<dataArray.length; i++) {
       let card = document.createElement('div');
       card.classList.add('card');
-      card.textContent = dataArray[i];
+
+      let name = document.createElement('div');
+      name.textContent = dataArray[i][1];
+      card.appendChild(name);
+
+      let title = document.createElement('div');
+      title.textContent = dataArray[i][2];
+      card.appendChild(title);
+
+      let city = document.createElement('div');
+      city.textContent = dataArray[i][3];
+      card.appendChild(city);
+
+      let state = document.createElement('div');
+      state.textContent = dataArray[i][4];
+      card.appendChild(state);
+
+      let type = document.createElement('div');
+      type.textContent = dataArray[i][5];
+      card.appendChild(type);
+
+      let guests = document.createElement('div');
+      guests.textContent = dataArray[i][6];
+      card.appendChild(guests);
+
+      let beds = document.createElement('div');
+      beds.textContent = dataArray[i][7];
+      card.appendChild(beds);
+
+      let baths = document.createElement('div');
+      baths.textContent = dataArray[i][8];
+      card.appendChild(baths);
+
+      let price = document.createElement('div');
+      price.textContent = dataArray[i][9];
+      card.appendChild(price);
+
+      let img = document.createElement('div');
+      img.textContent = dataArray[i][10];
+      card.appendChild(img);
+
       container.appendChild(card);
     }
   }
