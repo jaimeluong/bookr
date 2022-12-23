@@ -6,6 +6,7 @@
   google.script.run.withSuccessHandler(showData).getProperties();
 
   // Display data on front-end by creating cards
+  // Refactor this to a loop later...
   function showData(dataArray) {
     for(var i=0; i<dataArray.length; i++) {
       let card = document.createElement('div');
@@ -15,40 +16,37 @@
       name.textContent = dataArray[i][1];
       card.appendChild(name);
 
-      let title = document.createElement('div');
-      title.textContent = dataArray[i][2];
-      card.appendChild(title);
-
       let city = document.createElement('div');
-      city.textContent = dataArray[i][3];
+      city.textContent = dataArray[i][2];
       card.appendChild(city);
 
       let state = document.createElement('div');
-      state.textContent = dataArray[i][4];
+      state.textContent = dataArray[i][3];
       card.appendChild(state);
 
       let type = document.createElement('div');
-      type.textContent = dataArray[i][5];
+      type.textContent = dataArray[i][4];
       card.appendChild(type);
 
       let guests = document.createElement('div');
-      guests.textContent = dataArray[i][6];
+      guests.textContent = dataArray[i][5];
       card.appendChild(guests);
 
       let beds = document.createElement('div');
-      beds.textContent = dataArray[i][7];
+      beds.textContent = dataArray[i][6];
       card.appendChild(beds);
 
       let baths = document.createElement('div');
-      baths.textContent = dataArray[i][8];
+      baths.textContent = dataArray[i][7];
       card.appendChild(baths);
 
       let price = document.createElement('div');
-      price.textContent = dataArray[i][9];
+      price.textContent = dataArray[i][8];
       card.appendChild(price);
 
-      let img = document.createElement('div');
-      img.textContent = dataArray[i][10];
+      let img = document.createElement('img');
+      img.src = `${dataArray[i][9]}`;
+      img.style = 'height: 250px; width: 400px;';
       card.appendChild(img);
 
       container.appendChild(card);
