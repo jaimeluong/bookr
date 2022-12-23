@@ -1,0 +1,14 @@
+<script>
+    let container = document.querySelector('.container');
+  
+    google.script.run.withSuccessHandler(showData).getProperties();
+    function showData(dataArray) {
+      for(var i=0; i<dataArray.length; i++) {
+        let card = document.createElement('div');
+        card.setAttribute('style', `height: 10px; width: 10px; background-color: gray;`);
+        card.classList.add('card');
+        card.textContent = dataArray[i];
+        container.appendChild(card);
+      }
+    }
+  </script>

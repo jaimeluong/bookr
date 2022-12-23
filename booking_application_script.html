@@ -1,0 +1,24 @@
+<script>
+    // Prevent forms from submitting prematurely
+    function preventFormSubmit() {
+      let forms = document.querySelectorAll('form');
+      forms.forEach(form => form.addEventListener('submit', function(event) {
+        event.preventDefault();
+      }));
+    }
+    
+    // Prevent page from redirecting to an inaccurate URL in the event of an exception
+    window.addEventListener('load', preventFormSubmit);
+  
+    // Handle form submit
+    function handleBookingFormSubmit(formObject) {
+      google.script.run.withSuccessHandler(sendConfirmation).processBookingForm(formObject);
+    }
+  
+    // Send confirmation of booking after submission
+    function sendConfirmation() {
+      let confirmation = document.getElementById('confirmation');
+      confirmation.textContent = 'Your booking application has been received! Application details have been emailed to you, but please wait until you receive official confirmation of your stay.';
+      // Add code to email client booking request details using email template
+    }
+  </script>
