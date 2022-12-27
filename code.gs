@@ -3,15 +3,21 @@
 // Returns HTML template when client visits side, which sends a GET request to the server
 const doGet = (e) => { // doGet functions as a router to direct client to correct page based on request parameters
   switch (e.pathInfo) {
-    case 'book':
+    case 'book': // Eventually break up into /propertyId/book somehow...
       return HtmlService.createTemplateFromFile('booking_application').evaluate().setTitle('Book a stay');
     case 'properties':
       return HtmlService.createTemplateFromFile('properties').evaluate().setTitle('Available properties');
     case 'bookings':
       return HtmlService.createTemplateFromFile('admin_bookings').evaluate().setTitle('Submitted bookings');
-    default:
+    case 'metrics':
+      return HtmlService.createTemplateFromFile('metrics').evaluate().setTitle('Business metrics');
+    case 'manage':
+      return HtmlService.createTemplateFromFile('management').evaluate().setTitle('Property management');
+    default: // Index page, with no pathInfo
       return HtmlService.createTemplateFromFile('index').evaluate().setTitle('Bookr');
   }
+
+  // Add logic for alternative routing if e.pathInfo is a propertyId number
 }
 
 // Global function to allow separation of HTML, CSS, and JavaScript
