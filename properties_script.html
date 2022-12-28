@@ -1,12 +1,11 @@
 <script>
-  // Get container div to hold cards (one card = one property)
+  // Get container div to hold property cards
   let container = document.querySelector('.container');
 
   // Pull data from back-end, getProperties() returns the array of data
   google.script.run.withSuccessHandler(showData).getProperties();
 
   // Display data on front-end by creating cards
-  // Refactor this to a loop later...
   function showData(dataArray) {
     for(var i=0; i<dataArray.length; i++) {
       let card = document.createElement('div');
