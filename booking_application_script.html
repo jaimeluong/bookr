@@ -10,15 +10,15 @@
   // Prevent page from redirecting to an inaccurate URL in the event of an exception
   window.addEventListener('load', preventFormSubmit);
 
-  // Handle form submit
+  // Handle form submit, run displayConfirmation after processBookingForm(formObject) is successful
   function handleBookingFormSubmit(formObject) {
-    google.script.run.withSuccessHandler(sendConfirmation).processBookingForm(formObject);
+    google.script.run.withSuccessHandler(displayConfirmation).processBookingForm(formObject);
   }
 
-  // Send confirmation of booking after submission
-  function sendConfirmation() {
+  // Show confirmation of booking after submission oon page
+  function displayConfirmation() {
     let confirmation = document.getElementById('confirmation');
+    // Change to include line break <br> between two sentences so it looks cleaner
     confirmation.textContent = 'Your booking application has been received! Application details have been emailed to you, but please wait until you receive official confirmation of your stay.';
-    // Add code to email client booking request details using email template
   }
 </script>

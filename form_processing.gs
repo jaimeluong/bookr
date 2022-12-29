@@ -1,10 +1,7 @@
-// Global variable for database spreadsheet object
-const SPREADSHEET = SpreadsheetApp.openById('1o8zttMRHnp2Yf493vDYB2SJ_1xXwK1EkB8jgnAWAdVo');
-
 // Process booking application form when user hits Submit
 const processBookingForm = (formObject) => {
   const applications = SPREADSHEET.getSheetByName('Applications'); // Applications sheet
-  let row = applications.getLastRow()+1; // Row to deposit last submission
+  let row = applications.getLastRow()+1; // Row to deposit latest submission
   let dataLegend = [ // Map keys of form submission to column
     [1, Utilities.getUuid()],
     [2, new Date()],
@@ -25,6 +22,9 @@ const processBookingForm = (formObject) => {
   for(var i=0; i<dataLegend.length; i++) {
     applications.getRange(row,dataLegend[i][0]).setValue(dataLegend[i][1]);
   }
+
+  // Call sendConfirmationEmail function and pass in form object
+  sendConfirmationEmail(formObject);
 }
 
 // Determine date difference (inclusive) between check-in and check-out times
