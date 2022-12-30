@@ -11,5 +11,8 @@ const transferBookings = () => {
   if(currentCell.getColumn() == 14 && currentCell.getValue() === 'YES') {
     let data = applicationsSheet.getRange(currentCell.getRow(),1,1,13).getValues();
     bookingsSheet.getRange(bookingsSheet.getLastRow()+1,1,1,13).setValues(data);
+
+    // Send approved email after admin has approved
+    sendApprovedEmail(bookingsSheet, currentCell.getRow());
   }
 }
