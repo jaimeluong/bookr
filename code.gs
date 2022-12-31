@@ -1,5 +1,5 @@
 // Home page at https://script.google.com/macros/s/AKfycbwxYsTpb3W3QObNYOfYuBVjq8O6FOSQ4rAS9_yUBqY/dev
-// Book link at https://script.google.com/macros/s/AKfycbwxYsTpb3W3QObNYOfYuBVjq8O6FOSQ4rAS9_yUBqY/dev/book
+// Book link at https://script.google.com/macros/s/AKfycbwxYsTpb3W3QObNYOfYuBVjq8O6FOSQ4rAS9_yUBqY/dev/book?propertyId=1001
 // Properties link at https://script.google.com/macros/s/AKfycbwxYsTpb3W3QObNYOfYuBVjq8O6FOSQ4rAS9_yUBqY/dev/properties
 // Bookings link at https://script.google.com/macros/s/AKfycbwxYsTpb3W3QObNYOfYuBVjq8O6FOSQ4rAS9_yUBqY/dev/bookings
 // Metrics link at https://script.google.com/macros/s/AKfycbwxYsTpb3W3QObNYOfYuBVjq8O6FOSQ4rAS9_yUBqY/dev/metrics
@@ -7,11 +7,19 @@
 
 // Returns HTML template when client visits page, which sends a GET request to the server to retrieve HTML
 const doGet = (e) => { // doGet functions as a router to direct client to the correct page based on request parameters
-  // Add logic for alternative routing if e.pathInfo includes a property ID
+  // Get array of properties' IDs for use in custom routing
+  let properties = SpreadsheetApp.openById('1o8zttMRHnp2Yf493vDYB2SJ_1xXwK1EkB8jgnAWAdVo').getSheetByName('Properties');
+  let arr = properties.getRange(2,1,properties.getLastRow()-1,1).getValues().flat().map(id => parseInt(id));
 
   switch (e.pathInfo) {
-    case 'book': // Break up into unique /propertyId/book pages later
-      return HtmlService.createTemplateFromFile('booking_application').evaluate().setTitle('Book a stay');
+    case 'book':
+      if(arr.indexOf(parseInt(e.parameter.propertyId)) !== -1) { // Looks for URL parameters that match a property's ID
+        let page = HtmlService.createTemplateFromFile('booking_application');
+        page.propertyId = e.parameter.propertyId; // Gets property ID to make available in HTML
+        return page.evaluate().setTitle('Book a stay');
+      } else {
+        return HtmlService.createTemplateFromFile('404').evaluate().setTitle('Error'); // Return 404 page if a property was not found
+      }
     case 'properties':
       return HtmlService.createTemplateFromFile('properties').evaluate().setTitle('Available properties');
     case 'bookings':

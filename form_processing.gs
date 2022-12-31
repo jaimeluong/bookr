@@ -10,7 +10,7 @@ const processBookingForm = (formObject) => {
     [5, formObject.email],
     [6, formObject.phone],
     [7, formObject.guests],
-    // Add in property_requested field based off of the form the user is using (after booking link is added directly to property page)
+    [8, formObject.propertyId],
     [9, formObject.checkinDate],
     [10, formObject.checkoutDate],
     [11, formObject.accessibility],
