@@ -87,7 +87,7 @@ const sendReminderEmail = () => {
   let bookingData = bookingsSheet.getRange(2,1,bookingsSheet.getLastRow()-1,13).getValues();
 
   // Get current date
-  let today = new Date('December 29, 2022 08:30:00 -0600');
+  let today = new Date();
 
   // Loop through data to send reminder emails
   for(var i=0; i<bookingData.length; i++) {
