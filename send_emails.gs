@@ -33,32 +33,50 @@ const sendConfirmationEmail = (formObject) => {
   // });
 }
 
-// Send an approved email if the admin has approved the stay
-const sendApprovedEmail = (sheet, row) => {
-  // Array of row data in Bookings sheet
+// Send an approved email if the admin has approved the stay or a rejection email if the admin has rejected the stay
+const sendStatusEmail = (sheet, row, approved) => {
+  // Array of row data in Bookings or Applications sheet
   let data = sheet.getRange(row,1,1,10).getValues().flat();
 
-  // Create htmlTemplate object to insert variables into HTML
-  let htmlTemplate = HtmlService.createTemplateFromFile('approved_email');
+  // Create htmlTemplate object to insert variables into HTML depending on if approved or rejected
+  let htmlTemplate;
+  if(approved) {
+    htmlTemplate = HtmlService.createTemplateFromFile('approved_email');
+  } else {
+    htmlTemplate = HtmlService.createTemplateFromFile('rejection_email');
+  }
 
   // Create variables to pass into email template
   htmlTemplate.firstName = data[2];
   // Put in propertyName when I figure out custom routing
   htmlTemplate.checkinDate = Utilities.formatDate(data[8], 'GMT', 'MM-dd-yyyy');
   htmlTemplate.checkoutDate = Utilities.formatDate(data[9], 'GMT', 'MM-dd-yyyy');
+  htmlTemplate.timestamp = Utilities.formatDate(data[1], 'GMT', 'MM-dd-yyyy');
 
   // Create htmlBody object from htmlTemplate
   let body = htmlTemplate.evaluate().getContent();
 
-  // Send email, this version is for dev purposes because we do not want to be sending emails to random people
-  GmailApp.sendEmail('jaime.luong@gmail.com', `[Bookr] Booking approval for ${data[2]} ${data[3]} on ${Utilities.formatDate(data[8], 'GMT', 'MM-dd-yyyy')}`, '', {
-    htmlBody: body
-  });
-  
-  // Prod version
-  // GmailApp.sendEmail(data[4], `[Bookr] Booking approval for ${data[2]} ${data[3]} on ${Utilities.formatDate(data[8], 'GMT', 'MM-dd-yyyy')}`, '', {
-  //   htmlBody: body
-  // });
+  if(approved) {
+    // Send email, this version is for dev purposes because we do not want to be sending emails to random people
+    GmailApp.sendEmail('jaime.luong@gmail.com', `[Bookr] Booking approval for ${data[2]} ${data[3]} on ${Utilities.formatDate(data[8], 'GMT', 'MM-dd-yyyy')}`, '', {
+      htmlBody: body
+    });
+
+    // Prod version
+    // GmailApp.sendEmail(data[4], `[Bookr] Booking approval for ${data[2]} ${data[3]} on ${Utilities.formatDate(data[8], 'GMT', 'MM-dd-yyyy')}`, '', {
+    //   htmlBody: body
+    // });
+  } else {
+    // Send email, this version is for dev purposes because we do not want to be sending emails to random people
+    GmailApp.sendEmail('jaime.luong@gmail.com', `[Bookr] Booking rejection for ${data[2]} ${data[3]} on ${Utilities.formatDate(data[8], 'GMT', 'MM-dd-yyyy')}`, '', {
+      htmlBody: body
+    });
+
+    // Prod version
+    // GmailApp.sendEmail(data[4], `[Bookr] Booking rejection for ${data[2]} ${data[3]} on ${Utilities.formatDate(data[8], 'GMT', 'MM-dd-yyyy')}`, '', {
+    //   htmlBody: body
+    // });
+  }
 }
 
 // Send a reminder email two days before the stay is to begin

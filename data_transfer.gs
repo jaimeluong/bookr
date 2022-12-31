@@ -7,12 +7,14 @@ const transferBookings = () => {
   // Get current cell
   let currentCell = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet().getCurrentCell();
 
-  // Only send data to Bookings sheet if the admin manually approves it
-  if(currentCell.getColumn() == 14 && currentCell.getValue() === 'YES') {
-    let data = applicationsSheet.getRange(currentCell.getRow(),1,1,13).getValues();
-    bookingsSheet.getRange(bookingsSheet.getLastRow()+1,1,1,13).setValues(data);
-
-    // Send approved email after admin has approved
-    sendApprovedEmail(bookingsSheet, currentCell.getRow());
+  // Handle admin approval or rejection of booking application
+  if(currentCell.getColumn() == 14) {
+    if(currentCell.getValue() === 'YES') { // Send approved email if admin has approved, send data to confirmed Bookings sheet
+      let data = applicationsSheet.getRange(currentCell.getRow(),1,1,13).getValues();
+      bookingsSheet.getRange(bookingsSheet.getLastRow()+1,1,1,13).setValues(data);
+      sendStatusEmail(bookingsSheet, currentCell.getRow(), true);
+    } else if(currentCell.getValue() === 'NO') { // Send rejection email if admin has rejected
+      sendStatusEmail(applicationsSheet, currentCell.getRow(), false);
+    }
   }
 }
