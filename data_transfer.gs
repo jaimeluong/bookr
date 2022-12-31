@@ -1,4 +1,4 @@
-// Transfer approved bookings to new sheet after admin approval, runs on edit to transfer data
+// Handle admin approvals of booking applications
 const transferBookings = () => {
   // Get relevant sheet objects
   let applicationsSheet = SPREADSHEET.getSheetByName('Applications')
@@ -7,12 +7,13 @@ const transferBookings = () => {
   // Get current cell
   let currentCell = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet().getCurrentCell();
 
-  // Handle admin approval or rejection of booking application
+  // Proceed only if the column being edited is the "approved" column
   if(currentCell.getColumn() == 14) {
-    if(currentCell.getValue() === 'YES') { // Send approved email if admin has approved, send data to confirmed Bookings sheet
+    if(currentCell.getValue() === 'YES') { // Send data to confirmed Bookings sheet, send confirmation email to client, add stay to calendar
       let data = applicationsSheet.getRange(currentCell.getRow(),1,1,13).getValues();
       bookingsSheet.getRange(bookingsSheet.getLastRow()+1,1,1,13).setValues(data);
       sendStatusEmail(bookingsSheet, currentCell.getRow(), true);
+      addToCalendar(data.flat());
     } else if(currentCell.getValue() === 'NO') { // Send rejection email if admin has rejected
       sendStatusEmail(applicationsSheet, currentCell.getRow(), false);
     }
