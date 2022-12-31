@@ -9,7 +9,8 @@ const sendConfirmationEmail = (formObject) => {
   htmlTemplate.email = formObject.email;
   htmlTemplate.phone = formObject.phone;
   htmlTemplate.guests = formObject.guests;
-  // Put in propertyName when I figure out custom routing
+  let properties = getNames();
+  htmlTemplate.property = properties[properties.indexOf(formObject.propertyId)+1];
   htmlTemplate.checkinDate = formObject.checkinDate;
   htmlTemplate.checkoutDate = formObject.checkoutDate;
   if(formObject.accessibility == 'TRUE') {
@@ -23,12 +24,12 @@ const sendConfirmationEmail = (formObject) => {
   let body = htmlTemplate.evaluate().getContent();
 
   // Send email, this version is for dev purposes because we do not want to be sending emails to random people
-  GmailApp.sendEmail('jaime.luong@gmail.com', `[Bookr] Booking confirmation for ${formObject.firstName} ${formObject.lastName} on ${Utilities.formatDate(convertToDate(formObject.checkinDate), 'GMT', 'MM-dd-yyyy')}`, '', {
+  GmailApp.sendEmail('jaime.luong@gmail.com', `[Bookr] Booking confirmation for ${formObject.firstName} ${formObject.lastName} at ${properties[properties.indexOf(formObject.propertyId)+1]}`, '', {
     htmlBody: body
   });
   
   // Prod version
-  // GmailApp.sendEmail(formObject.email, `[Bookr] Booking confirmation for ${formObject.firstName} ${formObject.lastName} on ${Utilities.formatDate(convertToDate(formObject.checkinDate), 'GMT', 'MM-dd-yyyy')}`, '', {
+  // GmailApp.sendEmail(formObject.email, `[Bookr] Booking confirmation for ${formObject.firstName} ${formObject.lastName} at ${properties[properties.indexOf(formObject.propertyId)+1]}`, '', {
   //   htmlBody: body
   // });
 }
@@ -48,7 +49,8 @@ const sendStatusEmail = (sheet, row, approved) => {
 
   // Create variables to pass into email template
   htmlTemplate.firstName = data[2];
-  // Put in propertyName when I figure out custom routing
+  let properties = getNames();
+  htmlTemplate.property = properties[properties.indexOf(data[7].toString())+1];
   htmlTemplate.checkinDate = Utilities.formatDate(data[8], 'GMT', 'MM-dd-yyyy');
   htmlTemplate.checkoutDate = Utilities.formatDate(data[9], 'GMT', 'MM-dd-yyyy');
   htmlTemplate.timestamp = Utilities.formatDate(data[1], 'GMT', 'MM-dd-yyyy');
@@ -58,22 +60,22 @@ const sendStatusEmail = (sheet, row, approved) => {
 
   if(approved) {
     // Send email, this version is for dev purposes because we do not want to be sending emails to random people
-    GmailApp.sendEmail('jaime.luong@gmail.com', `[Bookr] Booking approval for ${data[2]} ${data[3]} on ${Utilities.formatDate(data[8], 'GMT', 'MM-dd-yyyy')}`, '', {
+    GmailApp.sendEmail('jaime.luong@gmail.com', `[Bookr] Booking approval for ${data[2]} ${data[3]} at ${properties[properties.indexOf(data[7].toString())+1]}`, '', {
       htmlBody: body
     });
 
     // Prod version
-    // GmailApp.sendEmail(data[4], `[Bookr] Booking approval for ${data[2]} ${data[3]} on ${Utilities.formatDate(data[8], 'GMT', 'MM-dd-yyyy')}`, '', {
+    // GmailApp.sendEmail(data[4], `[Bookr] Booking approval for ${data[2]} ${data[3]} at ${properties[properties.indexOf(data[7].toString())+1]}`, '', {
     //   htmlBody: body
     // });
   } else {
     // Send email, this version is for dev purposes because we do not want to be sending emails to random people
-    GmailApp.sendEmail('jaime.luong@gmail.com', `[Bookr] Booking rejection for ${data[2]} ${data[3]} on ${Utilities.formatDate(data[8], 'GMT', 'MM-dd-yyyy')}`, '', {
+    GmailApp.sendEmail('jaime.luong@gmail.com', `[Bookr] Booking rejection for ${data[2]} ${data[3]} at ${properties[properties.indexOf(data[7].toString())+1]}`, '', {
       htmlBody: body
     });
 
     // Prod version
-    // GmailApp.sendEmail(data[4], `[Bookr] Booking rejection for ${data[2]} ${data[3]} on ${Utilities.formatDate(data[8], 'GMT', 'MM-dd-yyyy')}`, '', {
+    // GmailApp.sendEmail(data[4], `[Bookr] Booking rejection for ${data[2]} ${data[3]} at ${properties[properties.indexOf(data[7].toString())+1]}`, '', {
     //   htmlBody: body
     // });
   }
@@ -85,6 +87,9 @@ const sendReminderEmail = () => {
   // Get sheet object and data
   let bookingsSheet = SPREADSHEET.getSheetByName('Bookings');
   let bookingData = bookingsSheet.getRange(2,1,bookingsSheet.getLastRow()-1,13).getValues();
+  
+  // Get properties to match up IDs to names
+  let properties = getNames();
 
   // Get current date
   let today = new Date();
@@ -101,6 +106,7 @@ const sendReminderEmail = () => {
       htmlTemplate.email = bookingData[i][4];
       htmlTemplate.phone = bookingData[i][5];
       htmlTemplate.guests = bookingData[i][6];
+      htmlTemplate.property = properties[properties.indexOf(bookingData[i][7].toString())+1];
       htmlTemplate.checkinDate = Utilities.formatDate(bookingData[i][8], 'GMT', 'MM-dd-yyyy');
       htmlTemplate.checkoutDate = Utilities.formatDate(bookingData[i][9], 'GMT', 'MM-dd-yyyy');
       htmlTemplate.days = bookingData[i][12];
@@ -109,12 +115,12 @@ const sendReminderEmail = () => {
       let body = htmlTemplate.evaluate().getContent();
 
       // Send email, this version is for dev purposes because we do not want to be sending emails to random people
-      GmailApp.sendEmail('jaime.luong@gmail.com', `[Bookr] Reminder of upcoming reservation starting on ${Utilities.formatDate(bookingData[i][8], 'GMT', 'MM-dd-yyyy')}`, '', {
+      GmailApp.sendEmail('jaime.luong@gmail.com', `[Bookr] Reminder of upcoming reservation at ${properties[properties.indexOf(bookingData[i][7].toString())+1]}`, '', {
         htmlBody: body
       });
 
       // Prod version
-      // GmailApp.sendEmail(bookingData[i][4], `[Bookr] Reminder of upcoming reservation starting on ${Utilities.formatDate(bookingData[i][8], 'GMT', 'MM-dd-yyyy')}`, '', {
+      // GmailApp.sendEmail(bookingData[i][4], `[Bookr] Reminder of upcoming reservation at ${properties[properties.indexOf(bookingData[i][7].toString())+1]}`, '', {
       //   htmlBody: body
       // });
     }

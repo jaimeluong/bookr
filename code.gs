@@ -48,6 +48,12 @@ const getProperties = () => {
   return data;
 }
 
+// Global reference array for matching property ID to name
+const getNames = () => {
+  let properties = SPREADSHEET.getSheetByName('Properties');
+  return properties.getRange(2,1,properties.getLastRow()-1,2).getValues().flat().map(id => id.toString()); // Return an array of strings
+}
+
 // Run in developer console for manual authorization
 const forceAuthorization = () => {
   let accessibility = SpreadsheetApp.openById('1o8zttMRHnp2Yf493vDYB2SJ_1xXwK1EkB8jgnAWAdVo');
