@@ -16,6 +16,8 @@ const doGet = (e) => { // doGet functions as a router to direct client to the co
       if(arr.indexOf(parseInt(e.parameter.propertyId)) !== -1) { // Looks for URL parameters that match a property's ID
         let page = HtmlService.createTemplateFromFile('booking_application');
         page.propertyId = e.parameter.propertyId; // Gets property ID to make available in HTML
+        let props = getNames();
+        page.property = props[props.indexOf(e.parameter.propertyId.toString())+1] // Gets property to make available in HTML
         return page.evaluate().setTitle('Book a stay');
       } else {
         return HtmlService.createTemplateFromFile('404').evaluate().setTitle('Error'); // Return 404 page if a property was not found
