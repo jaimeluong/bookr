@@ -1,3 +1,22 @@
 <script>
-
-</script>
+    // Get table div to hold property information
+    let table = document.querySelector('#tbl');
+    
+    // Pull data from back-end, getProperties() returns the array of data
+    google.script.run.withSuccessHandler(makeTable).getProperties();
+  
+    // Display data on front-end by creating a table
+    function makeTable(dataArray) {
+      for(var i=0; i<dataArray.length; i++) { // Make a row for each property
+        let tableRow = document.createElement('tr');
+  
+        for(var k=0; k<dataArray[i].length; k++) { // Loop through each property's fields
+          let tableData = document.createElement('td');
+          tableData.textContent = dataArray[i][k];
+          tableRow.appendChild(tableData);
+        }
+        
+        table.appendChild(tableRow);
+      }
+    }
+  </script>
