@@ -1,22 +1,43 @@
 <script>
-    // Get table div to hold property information
-    let table = document.querySelector('#tbl');
-    
-    // Pull data from back-end, getProperties() returns the array of data
-    google.script.run.withSuccessHandler(makeTable).getProperties();
+  // Get table div to hold property information
+  let table = document.querySelector('#tbl');
   
-    // Display data on front-end by creating a table
-    function makeTable(dataArray) {
-      for(var i=0; i<dataArray.length; i++) { // Make a row for each property
-        let tableRow = document.createElement('tr');
-  
-        for(var k=0; k<dataArray[i].length; k++) { // Loop through each property's fields
-          let tableData = document.createElement('td');
-          tableData.textContent = dataArray[i][k];
-          tableRow.appendChild(tableData);
-        }
-        
-        table.appendChild(tableRow);
+  // Pull data from back-end, getProperties() returns the array of data
+  google.script.run.withSuccessHandler(makeTable).getProperties();
+
+  // Display data on front-end by creating a table
+  function makeTable(dataArray) {
+    for(var i=0; i<dataArray.length; i++) { // Make a row for each property
+      let tableRow = document.createElement('tr');
+
+      for(var k=0; k<dataArray[i].length; k++) { // Loop through each property's fields
+        let tableData = document.createElement('td');
+        tableData.textContent = dataArray[i][k];
+        tableRow.appendChild(tableData);
       }
+      
+      table.appendChild(tableRow);
     }
-  </script>
+  }
+
+  // Prevent forms from submitting prematurely
+  function preventFormSubmit() {
+    let forms = document.querySelectorAll('form');
+    forms.forEach(form => form.addEventListener('submit', function(event) {
+      event.preventDefault();
+    }));
+  }
+  
+  // Prevent page from redirecting to an inaccurate URL in the event of an exception
+  window.addEventListener('load', preventFormSubmit);
+
+  // Handle add form submit, run updateConfirmation after processAddForm(formObject) is successful
+  function handleAddSubmit(formObject) {
+    google.script.run.withSuccessHandler(updateConfirmation).processAddForm(formObject);
+  }
+
+  // Show window alert to admin that data has been updated
+  function updateConfirmation() {
+    alert("Property data has been updated in the database, please refresh");
+  }
+</script>

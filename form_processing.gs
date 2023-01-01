@@ -27,6 +27,39 @@ const processBookingForm = (formObject) => {
   sendConfirmationEmail(formObject);
 }
 
+// Process add form when admin submits a new property to the database
+const processAddForm = (formObject) => {
+  const properties = SPREADSHEET.getSheetByName('Properties'); // Properties sheet
+  let row = properties.getLastRow()+1; // Row to deposit latest submission
+  let dataLegend = [ // Map keys of form submission to column
+    [1, properties.getLastRow()+1000],
+    [2, formObject.name],
+    [3, formObject.city],
+    [4, formObject.state],
+    [5, formObject.type],
+    [6, formObject.guests],
+    [7, formObject.beds],
+    [8, formObject.baths],
+    [9, formObject.price],
+    [10, formObject.url]
+  ];
+
+  // Loop through legend to set values
+  for(var i=0; i<dataLegend.length; i++) {
+    properties.getRange(row,dataLegend[i][0]).setValue(dataLegend[i][1]);
+  }
+}
+
+// Process delete form when admin deletes a property from the database
+const processDeleteForm = (formObject) => {
+  
+}
+
+// Process modify form when admin updates a property's fields in the database
+const processModifyForm = (formObject) => {
+  
+}
+
 // Determine date difference (inclusive) between check-in and check-out times
 const dateDifference = (start, end) => {
   return (start.getTime()-end.getTime())/(1000*60*60*24)+1;
