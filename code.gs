@@ -13,14 +13,14 @@ const doGet = (e) => { // doGet functions as a router to direct client to the co
 
   switch (e.pathInfo) {
     case 'book':
-      if(arr.indexOf(parseInt(e.parameter.propertyId)) !== -1) { // Looks for URL parameters that match a property's ID
+      if(arr.indexOf(parseInt(e.parameter.propertyId)) !== -1) { // Looks for a property ID in the URL parameter that matches an existing property's
         let page = HtmlService.createTemplateFromFile('booking_application');
         page.propertyId = e.parameter.propertyId; // Gets property ID to make available in HTML
         let props = getNames();
-        page.property = props[props.indexOf(e.parameter.propertyId.toString())+1] // Gets property to make available in HTML
+        page.property = props[props.indexOf(e.parameter.propertyId.toString())+1] // Gets property name to make available in HTML
         return page.evaluate().setTitle('Book a stay');
       } else {
-        return HtmlService.createTemplateFromFile('404').evaluate().setTitle('Error'); // Return 404 page if a property was not found
+        return HtmlService.createTemplateFromFile('404').evaluate().setTitle('Error'); // Returns error page if a property was not found with that ID
       }
     case 'properties':
       return HtmlService.createTemplateFromFile('properties').evaluate().setTitle('Available properties');
@@ -43,17 +43,17 @@ const include = (filename) => {
 // Global variable for database spreadsheet object
 const SPREADSHEET = SpreadsheetApp.openById('1o8zttMRHnp2Yf493vDYB2SJ_1xXwK1EkB8jgnAWAdVo');
 
-// Get data of available properties from database to send to properties page
+// Get data of available properties from database to send to client-side
 const getProperties = () => {
   let properties = SPREADSHEET.getSheetByName('Properties');
-  let data = properties.getRange(2,1,properties.getLastRow()-1,properties.getLastColumn()).getValues();
+  let data = properties.getRange(2,1,properties.getLastRow()-1,properties.getLastColumn()).getValues(); // 2-dimensional array
   return data;
 }
 
-// Global reference array for matching property ID to name
+// Function that returns an array to match property IDs with their names
 const getNames = () => {
   let properties = SPREADSHEET.getSheetByName('Properties');
-  return properties.getRange(2,1,properties.getLastRow()-1,2).getValues().flat().map(id => id.toString()); // Return an array of strings
+  return properties.getRange(2,1,properties.getLastRow()-1,2).getValues().flat().map(id => id.toString()); // Return an array of strings, with name one index higher than ID
 }
 
 // Run in developer console for manual authorization

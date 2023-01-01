@@ -1,10 +1,10 @@
-// Process booking application form when user hits Submit
+// Process booking application form when user submits
 const processBookingForm = (formObject) => {
-  const applications = SPREADSHEET.getSheetByName('Applications'); // Applications sheet
+  const applications = SPREADSHEET.getSheetByName('Applications');
   let row = applications.getLastRow()+1; // Row to deposit latest submission
-  let dataLegend = [ // Map keys of form submission to column
-    [1, Utilities.getUuid()],
-    [2, new Date()],
+  let dataLegend = [ // Map keys of form submission to related column
+    [1, Utilities.getUuid()], // Generate random UUID
+    [2, new Date()], // Generate current timestamp
     [3, formObject.firstName],
     [4, formObject.lastName],
     [5, formObject.email],
@@ -23,16 +23,16 @@ const processBookingForm = (formObject) => {
     applications.getRange(row,dataLegend[i][0]).setValue(dataLegend[i][1]);
   }
 
-  // Call sendConfirmationEmail function and pass in form object
+  // Send a confirmation email with form data
   sendConfirmationEmail(formObject);
 }
 
 // Process add form when admin submits a new property to the database
 const processAddForm = (formObject) => {
-  const properties = SPREADSHEET.getSheetByName('Properties'); // Properties sheet
+  const properties = SPREADSHEET.getSheetByName('Properties');
   let row = properties.getLastRow()+1; // Row to deposit latest submission
-  let dataLegend = [ // Map keys of form submission to column
-    [1, properties.getLastRow()+1000],
+  let dataLegend = [ // Map keys of form submission to related column
+    [1, properties.getLastRow()+1000], // IDs start at 1001
     [2, formObject.name],
     [3, formObject.city],
     [4, formObject.state],
@@ -52,17 +52,17 @@ const processAddForm = (formObject) => {
 
 // Process delete form when admin deletes a property from the database
 const processDeleteForm = (formObject) => {
-  const properties = SPREADSHEET.getSheetByName('Properties'); // Properties sheet
+  const properties = SPREADSHEET.getSheetByName('Properties');
   let data = properties.getRange(2,1,properties.getLastRow()+1,1).getValues().flat().map(id => id.toString());
   properties.deleteRow(data.indexOf(formObject.property)+2);
 }
 
 // Process modify form when admin updates a property's fields in the database
 const processModifyForm = (formObject) => {
-  const properties = SPREADSHEET.getSheetByName('Properties'); // Properties sheet
+  const properties = SPREADSHEET.getSheetByName('Properties');
   let data = properties.getRange(2,1,properties.getLastRow()+1,1).getValues().flat().map(id => id.toString());
-  let row = data.indexOf(formObject.property)+2
-  let dataLegend = [ // Map keys of form submission to column
+  let row = data.indexOf(formObject.property)+2;
+  let dataLegend = [ // Map keys of form submission to related column
     [1, formObject.property],
     [2, formObject.name],
     [3, formObject.city],

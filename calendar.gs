@@ -1,4 +1,4 @@
-// Add stay to admin Bookr calendar if admin has approved stay
+// Add stay to admin calendar with admin approval
 const addToCalendar = (data) => {
   // Get calendar object
   let calendar = CalendarApp.getCalendarById('fffc98ba3466912503d94e403dbce979b73cc8e216b5eabd4e9904d8e393d3a0@group.calendar.google.com');

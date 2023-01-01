@@ -23,20 +23,20 @@ const sendConfirmationEmail = (formObject) => {
   // Create htmlBody object from htmlTemplate
   let body = htmlTemplate.evaluate().getContent();
 
-  // Send email, this version is for dev purposes because we do not want to be sending emails to random people
+  // This version is for dev purposes to avoid spam emails
   GmailApp.sendEmail('jaime.luong@gmail.com', `[Bookr] Booking confirmation for ${formObject.firstName} ${formObject.lastName} at ${properties[properties.indexOf(formObject.propertyId)+1]}`, '', {
     htmlBody: body
   });
   
-  // Prod version
+  // Send email, prod version
   // GmailApp.sendEmail(formObject.email, `[Bookr] Booking confirmation for ${formObject.firstName} ${formObject.lastName} at ${properties[properties.indexOf(formObject.propertyId)+1]}`, '', {
   //   htmlBody: body
   // });
 }
 
-// Send an approved email if the admin has approved the stay or a rejection email if the admin has rejected the stay
+// Send an email to let client know application was approved or a rejection email if the admin has rejected the stay
 const sendStatusEmail = (sheet, row, approved) => {
-  // Array of row data in Bookings or Applications sheet
+  // Array of correct row data in Bookings or Applications sheet
   let data = sheet.getRange(row,1,1,10).getValues().flat();
 
   // Create htmlTemplate object to insert variables into HTML depending on if approved or rejected
@@ -59,29 +59,29 @@ const sendStatusEmail = (sheet, row, approved) => {
   let body = htmlTemplate.evaluate().getContent();
 
   if(approved) {
-    // Send email, this version is for dev purposes because we do not want to be sending emails to random people
+    // This version is for dev purposes to avoid spam emails
     GmailApp.sendEmail('jaime.luong@gmail.com', `[Bookr] Booking approval for ${data[2]} ${data[3]} at ${properties[properties.indexOf(data[7].toString())+1]}`, '', {
       htmlBody: body
     });
 
-    // Prod version
+    // Send email, prod version
     // GmailApp.sendEmail(data[4], `[Bookr] Booking approval for ${data[2]} ${data[3]} at ${properties[properties.indexOf(data[7].toString())+1]}`, '', {
     //   htmlBody: body
     // });
   } else {
-    // Send email, this version is for dev purposes because we do not want to be sending emails to random people
+    // This version is for dev purposes to avoid spam emails
     GmailApp.sendEmail('jaime.luong@gmail.com', `[Bookr] Booking rejection for ${data[2]} ${data[3]} at ${properties[properties.indexOf(data[7].toString())+1]}`, '', {
       htmlBody: body
     });
 
-    // Prod version
+    // Send email, prod version
     // GmailApp.sendEmail(data[4], `[Bookr] Booking rejection for ${data[2]} ${data[3]} at ${properties[properties.indexOf(data[7].toString())+1]}`, '', {
     //   htmlBody: body
     // });
   }
 }
 
-// Send a reminder email two days before the stay is to begin
+// Send a reminder email two days before the stay begins
 // Trigger installed to run every morning at 8 AM
 const sendReminderEmail = () => {
   // Get sheet object and data
@@ -114,12 +114,12 @@ const sendReminderEmail = () => {
       // Create htmlBody object from htmlTemplate
       let body = htmlTemplate.evaluate().getContent();
 
-      // Send email, this version is for dev purposes because we do not want to be sending emails to random people
+      // This version is for dev purposes to avoid spam emails
       GmailApp.sendEmail('jaime.luong@gmail.com', `[Bookr] Reminder of upcoming reservation at ${properties[properties.indexOf(bookingData[i][7].toString())+1]}`, '', {
         htmlBody: body
       });
 
-      // Prod version
+      // Send email, prod version
       // GmailApp.sendEmail(bookingData[i][4], `[Bookr] Reminder of upcoming reservation at ${properties[properties.indexOf(bookingData[i][7].toString())+1]}`, '', {
       //   htmlBody: body
       // });

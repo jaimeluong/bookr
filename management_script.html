@@ -2,7 +2,7 @@
   // Get table div to hold property information
   let table = document.querySelector('#tbl');
   
-  // Pull data from back-end, getProperties() returns the array of data
+  // Pull data from back-end to make table and populate dropdowns, getProperties() returns the array of data
   google.script.run.withSuccessHandler(makeTable).getProperties();
   google.script.run.withSuccessHandler(populateDropdown).getProperties();
 
@@ -10,13 +10,11 @@
   function makeTable(dataArray) {
     for(var i=0; i<dataArray.length; i++) { // Make a row for each property
       let tableRow = document.createElement('tr');
-
       for(var k=0; k<dataArray[i].length; k++) { // Loop through each property's fields
         let tableData = document.createElement('td');
         tableData.textContent = dataArray[i][k];
         tableRow.appendChild(tableData);
       }
-      
       table.appendChild(tableRow);
     }
   }
@@ -31,11 +29,6 @@
   
   // Prevent page from redirecting to an inaccurate URL in the event of an exception
   window.addEventListener('load', preventFormSubmit);
-
-  // Handle add form submit, run updateConfirmation after processAddForm(formObject) is successful
-  function handleAddSubmit(formObject) {
-    google.script.run.withSuccessHandler(updateConfirmation).processAddForm(formObject);
-  }
 
   // Populate drop-down options for delete and update forms based on existing properties
   function populateDropdown(dataArray) {
@@ -55,6 +48,11 @@
     }
   }
 
+  // Handle add form submit, run updateConfirmation after processAddForm(formObject) is successful
+  function handleAddSubmit(formObject) {
+    google.script.run.withSuccessHandler(updateConfirmation).processAddForm(formObject);
+  }
+
   // Handle delete form submit, run updateConfirmation after processDeleteForm(formObject) is successful
   function handleDeleteSubmit(formObject) {
     google.script.run.withSuccessHandler(updateConfirmation).processDeleteForm(formObject);
@@ -65,7 +63,7 @@
     google.script.run.withSuccessHandler(updateConfirmation).processModifyForm(formObject);
   }
 
-  // Show window alert to admin that data has been updated
+  // Show window alert to admin that the data has been updated
   function updateConfirmation() {
     alert("Database has been updated, please refresh page");
   }
