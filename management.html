@@ -28,7 +28,35 @@
     </div>
 
     <div class="modify">
-      <h2>Update properties</h2>
+      <h2>Update a property</h2>
+      <form id="modify" onsubmit="handleModifySubmit(this)">
+        <label for="property">Select property to update by ID</label><br>
+        <select id="modifyDropdown" name="property">
+
+        </select><br><br>
+        <label for="name">Property Name</label><br>
+        <input name="name" type="text"><br><br>
+        <label for="city">City</label><br>
+        <input name="city" type="text"><br><br>
+        <label for="state">State</label><br>
+        <input name="state" type="text"><br><br>
+        <label for="type">Type</label><br>
+        <select name="type">
+          <option value="Condo">Condo</option>
+          <option value="House">House</option>
+        </select><br><br>
+        <label for="guests">Max guests</label><br>
+        <input name="guests" type="number" min="1" max="10"><br><br>
+        <label for="beds">Beds</label><br>
+        <input name="beds" type="number" min="1" max="10"><br><br>
+        <label for="baths">Baths</label><br>
+        <input name="baths" type="number" min="1" max="10"><br><br>
+        <label for="price">Price ($) per night</label><br>
+        <input name="price" type="number" min="1" max="500"><br><br>
+        <label for="url">Image URL</label><br>
+        <input name="url" type="text"><br><br>
+        <input type="submit" value="Submit"/>
+      </form>
     </div>
 
     <div class="add">

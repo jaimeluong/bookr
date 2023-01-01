@@ -37,14 +37,21 @@
     google.script.run.withSuccessHandler(updateConfirmation).processAddForm(formObject);
   }
 
-  // Populate drop-down options for delete form based on existing properties
+  // Populate drop-down options for delete and update forms based on existing properties
   function populateDropdown(dataArray) {
     let deleteForm = document.getElementById('deleteDropdown');
+    let modifyForm = document.getElementById('modifyDropdown');
     for(var i=0; i<dataArray.length; i++) {
       let option = document.createElement('option');
       option.setAttribute('value', dataArray[i][0]);
       option.textContent = dataArray[i][0];
       deleteForm.appendChild(option);
+    }
+    for(var v=0; v<dataArray.length; v++) {
+      let option = document.createElement('option');
+      option.setAttribute('value', dataArray[v][0]);
+      option.textContent = dataArray[v][0];
+      modifyForm.appendChild(option);
     }
   }
 
@@ -53,8 +60,13 @@
     google.script.run.withSuccessHandler(updateConfirmation).processDeleteForm(formObject);
   }
 
+  // Handle modify form submit, run updateConfirmation after processModifyForm(formObject) is successful
+  function handleModifySubmit(formObject) {
+    google.script.run.withSuccessHandler(updateConfirmation).processModifyForm(formObject);
+  }
+
   // Show window alert to admin that data has been updated
   function updateConfirmation() {
-    alert("Property data has been updated in the database, please refresh page");
+    alert("Database has been updated, please refresh page");
   }
 </script>

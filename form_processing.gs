@@ -59,7 +59,25 @@ const processDeleteForm = (formObject) => {
 
 // Process modify form when admin updates a property's fields in the database
 const processModifyForm = (formObject) => {
-  
+  const properties = SPREADSHEET.getSheetByName('Properties'); // Properties sheet
+  let data = properties.getRange(2,1,properties.getLastRow()+1,1).getValues().flat().map(id => id.toString());
+  let row = data.indexOf(formObject.property)+2
+  let dataLegend = [ // Map keys of form submission to column
+    [1, formObject.property],
+    [2, formObject.name],
+    [3, formObject.city],
+    [4, formObject.state],
+    [5, formObject.type],
+    [6, formObject.guests],
+    [7, formObject.beds],
+    [8, formObject.baths],
+    [9, formObject.price],
+    [10, formObject.url]
+  ];
+  // Loop through legend to set values
+  for(var j=0; j<dataLegend.length; j++) {
+    properties.getRange(row,dataLegend[j][0],1,1).setValue(dataLegend[j][1]);
+  }
 }
 
 // Determine date difference (inclusive) between check-in and check-out times
