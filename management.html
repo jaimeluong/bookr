@@ -62,7 +62,11 @@
     <div class="delete">
       <h2>Delete a property</h2>
       <form id="delete" onsubmit="handleDeleteSubmit(this)">
-        
+        <label for="property">Select property to delete by ID</label><br>
+        <select id="deleteDropdown" name="property">
+
+        </select><br><br>
+        <input type="submit" value="Submit"/>
       </form>
     </div>
 </body>

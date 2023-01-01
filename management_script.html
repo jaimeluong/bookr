@@ -4,6 +4,7 @@
   
   // Pull data from back-end, getProperties() returns the array of data
   google.script.run.withSuccessHandler(makeTable).getProperties();
+  google.script.run.withSuccessHandler(populateDropdown).getProperties();
 
   // Display data on front-end by creating a table
   function makeTable(dataArray) {
@@ -36,8 +37,24 @@
     google.script.run.withSuccessHandler(updateConfirmation).processAddForm(formObject);
   }
 
+  // Populate drop-down options for delete form based on existing properties
+  function populateDropdown(dataArray) {
+    let deleteForm = document.getElementById('deleteDropdown');
+    for(var i=0; i<dataArray.length; i++) {
+      let option = document.createElement('option');
+      option.setAttribute('value', dataArray[i][0]);
+      option.textContent = dataArray[i][0];
+      deleteForm.appendChild(option);
+    }
+  }
+
+  // Handle delete form submit, run updateConfirmation after processDeleteForm(formObject) is successful
+  function handleDeleteSubmit(formObject) {
+    google.script.run.withSuccessHandler(updateConfirmation).processDeleteForm(formObject);
+  }
+
   // Show window alert to admin that data has been updated
   function updateConfirmation() {
-    alert("Property data has been updated in the database, please refresh");
+    alert("Property data has been updated in the database, please refresh page");
   }
 </script>

@@ -52,7 +52,9 @@ const processAddForm = (formObject) => {
 
 // Process delete form when admin deletes a property from the database
 const processDeleteForm = (formObject) => {
-  
+  const properties = SPREADSHEET.getSheetByName('Properties'); // Properties sheet
+  let data = properties.getRange(2,1,properties.getLastRow()+1,1).getValues().flat().map(id => id.toString());
+  properties.deleteRow(data.indexOf(formObject.property)+2);
 }
 
 // Process modify form when admin updates a property's fields in the database
