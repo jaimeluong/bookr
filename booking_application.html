@@ -12,20 +12,25 @@
 <body>
     <h1>Book a stay for <?= property; ?></h1>
 
+    <img src="<?= url; ?>" alt="<?= property; ?>" width="450px" height="auto">
+
+    <p>Please fill out the following form and Bookr will respond in 1-2 business days</p>
+
     <form id="booking" onsubmit="handleBookingFormSubmit(this)">
-      <label for="firstName">First name</label><br>
-      <input name="firstName" type="text"><br><br>
+      <div id="box">
+      <label for="firstName">* First name: </label>
+      <input name="firstName" type="text" required><br><br>
 
-      <label for="lastName">Last name</label><br>
-      <input name="lastName" type="text"><br><br>
+      <label for="lastName">* Last name: </label>
+      <input name="lastName" type="text" required><br><br>
 
-      <label for="email">Email address</label><br>
-      <input name="email" type="email"><br><br>
+      <label for="email">* Email address: </label>
+      <input name="email" type="email" required><br><br>
 
-      <label for="phone">Phone number</label><br>
-      <input type="tel" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"><br><br>
+      <label for="phone">* Phone number: </label>
+      <input type="tel" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required><br><br>
 
-      <label for="guests">Number of guests</label><br>
+      <label for="guests">* Number of guests: </label>
       <select name="guests">
         <option value="1">1</option>
         <option value="2">2</option>
@@ -39,26 +44,30 @@
         <option value="10">10</option>
       </select><br><br>
 
-      <label for="checkinDate">Check-in date</label><br>
-      <input type="date" name="checkinDate"><br><br>
+      <label for="checkinDate">* Check-in date: </label>
+      <input type="date" name="checkinDate" required><br><br>
 
-      <label for="checkoutDate">Check-out date</label><br>
-      <input type="date" name="checkoutDate"><br><br>
+      <label for="checkoutDate">* Check-out date: </label>
+      <input type="date" name="checkoutDate" required><br><br>
 
-      <label for="accessibility">Do any guests require accessibility-related accommodations?</label>
+      <label for="accessibility">Do any guests require accessibility-related accommodations? </label>
       <input type="checkbox" name="accessibility" value="TRUE"><br><br>
 
-      <label for="promoEmails">Would you like to receive promotional emails from Bookr?</label>
+      <label for="promoEmails">Would you like to receive promotional emails from Bookr? </label>
       <input type="checkbox" name="promoEmails" value="TRUE"><br><br>
 
       <input type="hidden" name="propertyId" value="<?= propertyId; ?>">
       
       <input type="submit" value="Submit"/>
+
+      </div>
     </form>
 
     <br>
 
     <div id="confirmation"></div>
+
+    <a id="link" href="https://script.google.com/macros/s/AKfycbwxYsTpb3W3QObNYOfYuBVjq8O6FOSQ4rAS9_yUBqY/dev">Return home</a>
 </body>
 <?!= include('booking_application_script'); ?>
 </html>

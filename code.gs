@@ -17,6 +17,8 @@ const doGet = (e) => { // doGet functions as a router to direct client to the co
         page.propertyId = e.parameter.propertyId; // Gets property ID to make available in HTML
         let props = getNames();
         page.property = props[props.indexOf(e.parameter.propertyId.toString())+1] // Gets property name to make available in HTML
+        let data = getProperties().flat().map(obj => obj.toString());
+        page.url = data[data.indexOf(e.parameter.propertyId.toString())+9]; // Gets property image URL to make available in HTML
         return page.evaluate().setTitle('Book a stay');
       } else {
         return HtmlService.createTemplateFromFile('error').evaluate().setTitle('Error'); // Returns error page if a property was not found with that ID
