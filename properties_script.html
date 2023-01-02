@@ -11,45 +11,73 @@
       let card = document.createElement('div');
       card.classList.add('card');
 
+      let nameCityState = document.createElement('div');
+      nameCityState.classList.add('nameCityState');
+
+      let cityState = document.createElement('div');
+      cityState.classList.add('cityState');
+
       let name = document.createElement('div');
       name.textContent = dataArray[i][1];
-      card.appendChild(name);
+      name.classList.add('name');
+      nameCityState.appendChild(name);
 
       let city = document.createElement('div');
-      city.textContent = dataArray[i][2];
-      card.appendChild(city);
+      city.textContent = dataArray[i][2] + ',';
+      city.classList.add('city');
+      cityState.appendChild(city);
 
       let state = document.createElement('div');
       state.textContent = dataArray[i][3];
-      card.appendChild(state);
+      state.classList.add('state');
+      cityState.appendChild(state);
 
-      let type = document.createElement('div');
-      type.textContent = dataArray[i][4];
-      card.appendChild(type);
+      card.appendChild(nameCityState);
+      nameCityState.appendChild(cityState);
 
-      let guests = document.createElement('div');
-      guests.textContent = dataArray[i][5];
-      card.appendChild(guests);
+      let blob = document.createElement('div');
+      blob.classList.add('blob');
 
-      let beds = document.createElement('div');
-      beds.textContent = dataArray[i][6];
-      card.appendChild(beds);
-
-      let baths = document.createElement('div');
-      baths.textContent = dataArray[i][7];
-      card.appendChild(baths);
-
-      let price = document.createElement('div');
-      price.textContent = dataArray[i][8];
-      card.appendChild(price);
+      let info = document.createElement('div');
+      info.classList.add('info');
 
       let img = document.createElement('img');
       img.src = `${dataArray[i][9]}`;
-      img.style = 'height: 250px; width: 400px;';
-      card.appendChild(img);
+      img.style = 'height: 350px; width: 450px;';
+      img.classList.add('img');
+      blob.appendChild(img);
+
+      let type = document.createElement('div');
+      type.textContent = dataArray[i][4];
+      type.classList.add('type');
+      info.appendChild(type);
+
+      let guests = document.createElement('div');
+      guests.textContent = `Max guests: ${dataArray[i][5]}`;
+      guests.classList.add('guests');
+      info.appendChild(guests);
+
+      let beds = document.createElement('div');
+      beds.textContent = `Beds: ${dataArray[i][6]}`;
+      beds.classList.add('beds');
+      info.appendChild(beds);
+
+      let baths = document.createElement('div');
+      baths.textContent = `Baths: ${dataArray[i][7]}`;
+      baths.classList.add('baths');
+      info.appendChild(baths);
+
+      let price = document.createElement('div');
+      price.textContent = `Cost per night: $${dataArray[i][8]}`;
+      price.classList.add('price');
+      info.appendChild(price);
+
+      card.appendChild(blob);
+      blob.appendChild(info);
 
       let link = document.createElement('div');
-      link.innerHTML = `<a href="https://script.google.com/macros/s/AKfycbwxYsTpb3W3QObNYOfYuBVjq8O6FOSQ4rAS9_yUBqY/dev/book?propertyId=${dataArray[i][0]}">Book a stay</a>`;
+      link.innerHTML = `<a href="https://script.google.com/macros/s/AKfycbwxYsTpb3W3QObNYOfYuBVjq8O6FOSQ4rAS9_yUBqY/dev/book?propertyId=${dataArray[i][0]}">Book a stay →</a>`;
+      link.classList.add('link');
       card.appendChild(link);
 
       container.appendChild(card);
