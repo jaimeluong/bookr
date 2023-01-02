@@ -1,7 +1,7 @@
 // Add stay to admin calendar with admin approval
 const addToCalendar = (data) => {
   // Get calendar object
-  let calendar = CalendarApp.getCalendarById('fffc98ba3466912503d94e403dbce979b73cc8e216b5eabd4e9904d8e393d3a0@group.calendar.google.com');
+  let calendar = CalendarApp.getCalendarById('c211312b340468b313509273ea973c2b8f26615a886cafaa27c0ec98df365b23@group.calendar.google.com');
 
   // Get properties sheet to extract location data
   let propertiesSheet = SPREADSHEET.getSheetByName('Properties');
