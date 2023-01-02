@@ -2,7 +2,6 @@
 // Book link at https://script.google.com/macros/s/AKfycbwxYsTpb3W3QObNYOfYuBVjq8O6FOSQ4rAS9_yUBqY/dev/book?propertyId=1001
 // Properties link at https://script.google.com/macros/s/AKfycbwxYsTpb3W3QObNYOfYuBVjq8O6FOSQ4rAS9_yUBqY/dev/properties
 // Bookings link at https://script.google.com/macros/s/AKfycbwxYsTpb3W3QObNYOfYuBVjq8O6FOSQ4rAS9_yUBqY/dev/bookings
-// Metrics link at https://script.google.com/macros/s/AKfycbwxYsTpb3W3QObNYOfYuBVjq8O6FOSQ4rAS9_yUBqY/dev/metrics
 // Management link at https://script.google.com/macros/s/AKfycbwxYsTpb3W3QObNYOfYuBVjq8O6FOSQ4rAS9_yUBqY/dev/manage
 
 // Returns HTML template when client visits page, which sends a GET request to the server to retrieve HTML
@@ -20,14 +19,12 @@ const doGet = (e) => { // doGet functions as a router to direct client to the co
         page.property = props[props.indexOf(e.parameter.propertyId.toString())+1] // Gets property name to make available in HTML
         return page.evaluate().setTitle('Book a stay');
       } else {
-        return HtmlService.createTemplateFromFile('404').evaluate().setTitle('Error'); // Returns error page if a property was not found with that ID
+        return HtmlService.createTemplateFromFile('error').evaluate().setTitle('Error'); // Returns error page if a property was not found with that ID
       }
     case 'properties':
       return HtmlService.createTemplateFromFile('properties').evaluate().setTitle('Available properties');
     case 'bookings':
       return HtmlService.createTemplateFromFile('admin_bookings').evaluate().setTitle('Submitted bookings');
-    case 'metrics':
-      return HtmlService.createTemplateFromFile('metrics').evaluate().setTitle('Business metrics');
     case 'manage':
       return HtmlService.createTemplateFromFile('management').evaluate().setTitle('Property management');
     default: // Index page
@@ -58,8 +55,8 @@ const getNames = () => {
 
 // Run in developer console for manual authorization
 const forceAuthorization = () => {
-  let accessibility = SpreadsheetApp.openById('1o8zttMRHnp2Yf493vDYB2SJ_1xXwK1EkB8jgnAWAdVo');
-  let mail = GmailApp.getInboxUnreadCount();
-  let drive = DriveApp.getStorageUsed();
-  let calendar = CalendarApp.getAllCalendars();
+  let s = SpreadsheetApp.openById('1o8zttMRHnp2Yf493vDYB2SJ_1xXwK1EkB8jgnAWAdVo');
+  let g = GmailApp.getInboxUnreadCount();
+  let d = DriveApp.getStorageUsed();
+  let c = CalendarApp.getAllCalendars();
 }
