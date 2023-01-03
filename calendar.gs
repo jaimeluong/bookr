@@ -12,7 +12,7 @@ const addToCalendar = (data) => {
   // Get data to create calendar event
   let title = `${data[2]} ${data[3]} at ${properties[properties.indexOf(data[7].toString())+1]}`;
   let startDate = data[8];
-  let endDate = data[9];
+  let endDate = new Date(data[9].getTime() + 1000*60*60*24);
   let acc;
   if(data[10] == 'TRUE') {
     acc = 'Yes';
@@ -20,7 +20,7 @@ const addToCalendar = (data) => {
     acc = 'No';
   }
   let desc = `${data[2]} ${data[3]} and ${data[6]} guest(s) for ${data[12]} day(s)\n\nEmail address: ${data[4]}\nPhone number: ${data[5]}\nAccessibility provided: ${acc}`;
-  let row = properties.indexOf(data[7].toString())+2;
+  let row = propertiesSheet.getRange(1,1,propertiesSheet.getLastRow(),1).getValues().flat().map(id => id.toString()).indexOf(data[7].toString())+1;
   let location = `${propertiesSheet.getRange(row,3,1,1).getValue()}, ${propertiesSheet.getRange(row,4,1,1).getValue()}`;
   // let guests = data[4]; // Commenting out so mock email address data isn't used to invite guests
 
