@@ -5,28 +5,38 @@ const doGet = (e) => {
   // Get array of properties' IDs for use in custom routing
   let properties = SpreadsheetApp.openById('1o8zttMRHnp2Yf493vDYB2SJ_1xXwK1EkB8jgnAWAdVo').getSheetByName('Properties');
   let arr = properties.getRange(2,1,properties.getLastRow()-1,1).getValues().flat().map(id => parseInt(id));
+  let page;
 
   switch (e.pathInfo) {
     case 'book':
       if(arr.indexOf(parseInt(e.parameter.propertyId)) !== -1) { // Looks for a property ID in the URL parameter that matches an existing property's
-        let page = HtmlService.createTemplateFromFile('booking_application');
+        page = HtmlService.createTemplateFromFile('booking_application');
         page.propertyId = e.parameter.propertyId; // Gets property ID to make available in HTML
         let props = getNames();
         page.property = props[props.indexOf(e.parameter.propertyId.toString())+1] // Gets property name to make available in HTML
         let data = getProperties().flat().map(obj => obj.toString());
         page.url = data[data.indexOf(e.parameter.propertyId.toString())+9]; // Gets property image URL to make available in HTML
+        page.link = getLink(); // Gets active deployment link to make available in HTML
         return page.evaluate().setTitle('Book a stay');
       } else {
         return HtmlService.createTemplateFromFile('error').evaluate().setTitle('Error'); // Returns error page if a property was not found with that ID
       }
     case 'properties':
-      return HtmlService.createTemplateFromFile('properties').evaluate().setTitle('Available properties');
+      page = HtmlService.createTemplateFromFile('properties');
+      page.link = getLink();
+      return page.evaluate().setTitle('Available properties');
     case 'bookings':
-      return HtmlService.createTemplateFromFile('admin_bookings').evaluate().setTitle('Submitted bookings');
+      page = HtmlService.createTemplateFromFile('admin_bookings');
+      page.link = getLink();
+      return page.evaluate().setTitle('Submitted bookings');
     case 'manage':
-      return HtmlService.createTemplateFromFile('management').evaluate().setTitle('Property management');
+      page = HtmlService.createTemplateFromFile('management');
+      page.link = getLink();
+      return page.evaluate().setTitle('Property management');
     default: // Index page
-      return HtmlService.createTemplateFromFile('index').evaluate().setTitle('Bookr');
+      page = HtmlService.createTemplateFromFile('index');
+      page.link = getLink();
+      return page.evaluate().setTitle('Bookr');
   }
 }
 
@@ -42,13 +52,19 @@ const SPREADSHEET = SpreadsheetApp.openById('1o8zttMRHnp2Yf493vDYB2SJ_1xXwK1EkB8
 const getProperties = () => {
   let properties = SPREADSHEET.getSheetByName('Properties');
   let data = properties.getRange(2,1,properties.getLastRow()-1,properties.getLastColumn()).getValues(); // 2-dimensional array
+  data.push(getLink());
   return data;
 }
 
-// Function that returns an array to match property IDs with their names
+// Gets an array to match property IDs with their names
 const getNames = () => {
   let properties = SPREADSHEET.getSheetByName('Properties');
   return properties.getRange(2,1,properties.getLastRow()-1,2).getValues().flat().map(id => id.toString()); // Return an array of strings, with name one index higher than ID
+}
+
+// Get active deployment link
+const getLink = () => {
+  return SPREADSHEET.getSheetByName('Link').getRange(1,1).getValue().toString();
 }
 
 // Run in developer console for manual authorization
