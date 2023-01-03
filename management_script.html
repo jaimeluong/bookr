@@ -8,7 +8,7 @@
 
   // Display data on front-end by creating a table
   function makeTable(dataArray) {
-    for(var i=0; i<dataArray.length; i++) { // Make a row for each property
+    for(var i=0; i<dataArray.length-1; i++) { // Make a row for each property
       let tableRow = document.createElement('tr');
       for(var k=0; k<dataArray[i].length; k++) { // Loop through each property's fields
         let tableData = document.createElement('td');
@@ -34,13 +34,13 @@
   function populateDropdown(dataArray) {
     let deleteForm = document.getElementById('deleteDropdown');
     let modifyForm = document.getElementById('modifyDropdown');
-    for(var i=0; i<dataArray.length; i++) {
+    for(var i=0; i<dataArray.length-1; i++) {
       let option = document.createElement('option');
       option.setAttribute('value', dataArray[i][0]);
       option.textContent = dataArray[i][0];
       deleteForm.appendChild(option);
     }
-    for(var v=0; v<dataArray.length; v++) {
+    for(var v=0; v<dataArray.length-1; v++) {
       let option = document.createElement('option');
       option.setAttribute('value', dataArray[v][0]);
       option.textContent = dataArray[v][0];

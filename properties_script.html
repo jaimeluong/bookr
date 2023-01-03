@@ -7,7 +7,7 @@
 
   // Display data on front-end by creating cards
   function showData(dataArray) {
-    for(var i=0; i<dataArray.length; i++) {
+    for(var i=0; i<dataArray.length-1; i++) {
       let card = document.createElement('div');
       card.classList.add('card');
 
@@ -76,7 +76,7 @@
       blob.appendChild(info);
 
       let link = document.createElement('div');
-      link.innerHTML = `<a href="https://script.google.com/macros/s/AKfycbwxYsTpb3W3QObNYOfYuBVjq8O6FOSQ4rAS9_yUBqY/dev/book?propertyId=${dataArray[i][0]}">Book a stay →</a>`;
+      link.innerHTML = `<a href="${dataArray[dataArray.length-1]}/book?propertyId=${dataArray[i][0]}">Book a stay →</a>`;
       link.classList.add('link');
       card.appendChild(link);
 

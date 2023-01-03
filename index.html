@@ -15,13 +15,13 @@
       <h1>Welcome to Bookr!</h1>
       <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_Apps_Script.svg/800px-Google_Apps_Script.svg.png" height="300px" width="300px" style="display: block; margin-left: auto; margin-right: auto;">
       <p>Bookr is a full-stack travel booking website built in Google Apps Script where you can view properties to stay in, book a reservation, and receive communications about your stay. Admins can manage appointments and properties through a web interface.</p>
-      <form action="https://script.google.com/macros/s/AKfycbwxYsTpb3W3QObNYOfYuBVjq8O6FOSQ4rAS9_yUBqY/dev/properties">
+      <form action="<?= link; ?>/properties">
         <input type="submit" value="View properties" />
       </form>
-      <form action="https://script.google.com/macros/s/AKfycbwxYsTpb3W3QObNYOfYuBVjq8O6FOSQ4rAS9_yUBqY/dev/bookings">
+      <form action="<?= link; ?>/bookings">
         <input type="submit" value="View bookings" />
       </form>
-      <form action="https://script.google.com/macros/s/AKfycbwxYsTpb3W3QObNYOfYuBVjq8O6FOSQ4rAS9_yUBqY/dev/manage">
+      <form action="<?= link; ?>/manage">
         <input type="submit" value="Admin console" />
       </form>
     </div>
